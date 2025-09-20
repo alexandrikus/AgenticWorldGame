@@ -1,0 +1,307 @@
+/* AgenticWorldGame Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+#gameContainer {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameCanvas {
+    border: 2px solid #333;
+    background-color: #2a4d3a;
+    border-radius: 8px;
+}
+
+/* Game UI Overlay */
+#gameUI {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#gameUI > * {
+    pointer-events: auto;
+}
+
+/* Interaction Prompt */
+#interactionPrompt {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 2px solid #4a90e2;
+    font-size: 14px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Chat Interface */
+#chatInterface {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#chatWindow {
+    width: 600px;
+    height: 500px;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    border-radius: 10px;
+    border: 3px solid #4a90e2;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#chatHeader {
+    background: linear-gradient(90deg, #4a90e2 0%, #357abd 100%);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #357abd;
+}
+
+#agentName {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+#closeChatBtn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+#closeChatBtn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#chatHistory {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.message.player {
+    background: #3498db;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+.message.agent {
+    background: #95a5a6;
+    color: #2c3e50;
+}
+
+.message-meta {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+#chatInput {
+    padding: 20px;
+    background: #34495e;
+    display: flex;
+    gap: 10px;
+    border-top: 2px solid #4a90e2;
+}
+
+#messageInput {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #4a90e2;
+    border-radius: 5px;
+    background: #2c3e50;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#messageInput:focus {
+    border-color: #5dade2;
+}
+
+#messageInput::placeholder {
+    color: #95a5a6;
+}
+
+#sendBtn {
+    padding: 12px 25px;
+    background: linear-gradient(90deg, #4a90e2 0%, #357abd 100%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#sendBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+}
+
+#sendBtn:active {
+    transform: translateY(0);
+}
+
+/* Game Status */
+#gameStatus {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #4a90e2;
+    min-width: 200px;
+}
+
+.status-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.status-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Loading Screen */
+#loadingScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#loadingScreen h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #4a90e2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#loadingScreen p {
+    font-size: 18px;
+    color: #ecf0f1;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #chatWindow {
+        width: 90%;
+        height: 80%;
+        margin: 20px;
+    }
+    
+    #gameCanvas {
+        width: 100%;
+        height: 100%;
+        max-width: 100vw;
+        max-height: 100vh;
+    }
+    
+    #gameStatus {
+        top: 10px;
+        left: 10px;
+        padding: 10px;
+        min-width: 150px;
+        font-size: 12px;
+    }
+}
+
+/* Scrollbar Styling */
+#chatHistory::-webkit-scrollbar {
+    width: 8px;
+}
+
+#chatHistory::-webkit-scrollbar-track {
+    background: #bdc3c7;
+    border-radius: 4px;
+}
+
+#chatHistory::-webkit-scrollbar-thumb {
+    background: #7f8c8d;
+    border-radius: 4px;
+}
+
+#chatHistory::-webkit-scrollbar-thumb:hover {
+    background: #6c7b7d;
+}

@@ -1,0 +1,25 @@
+{
+  "name": "agentic-world-game",
+  "version": "1.0.0",
+  "description": "A 2D web-based sandbox game with AI-driven characters",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=3000 --open=/index.html",
+    "build": "echo 'Build process for production'",
+    "test": "echo 'No tests yet'"
+  },
+  "keywords": [
+    "game",
+    "2d",
+    "ai",
+    "sandbox",
+    "web",
+    "javascript"
+  ],
+  "author": "AgenticWorldGame Team",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "dependencies": {}
+}

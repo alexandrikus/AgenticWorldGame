@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgenticWorldGame</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="1024" height="768"></canvas>
+        
+        <!-- Game UI Overlay -->
+        <div id="gameUI">
+            <div id="interactionPrompt" class="hidden">
+                Press E to interact
+            </div>
+            
+            <!-- Chat Interface -->
+            <div id="chatInterface" class="hidden">
+                <div id="chatWindow">
+                    <div id="chatHeader">
+                        <span id="agentName">Agent Name</span>
+                        <button id="closeChatBtn">&times;</button>
+                    </div>
+                    <div id="chatHistory"></div>
+                    <div id="chatInput">
+                        <input type="text" id="messageInput" placeholder="Type your message..." maxlength="500">
+                        <button id="sendBtn">Send</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Game Status -->
+            <div id="gameStatus">
+                <div class="status-item">
+                    <span>Position: </span>
+                    <span id="playerPosition">0, 0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <h1>AgenticWorldGame</h1>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="src/js/utils/EventEmitter.js"></script>
+    <script src="src/js/utils/Vector2.js"></script>
+    <script src="src/js/core/GameEngine.js"></script>
+    <script src="src/js/core/InputManager.js"></script>
+    <script src="src/js/core/Renderer.js"></script>
+    <script src="src/js/core/GamePersistence.js"></script>
+    <script src="src/js/entities/Entity.js"></script>
+    <script src="src/js/entities/Player.js"></script>
+    <script src="src/js/entities/Agent.js"></script>
+    <script src="src/js/world/World.js"></script>
+    <script src="src/js/world/Zone.js"></script>
+    <script src="src/js/ui/ChatInterface.js"></script>
+    <script src="src/js/ai/AIAgent.js"></script>
+    <script src="src/js/ai/AgentMemory.js"></script>
+    <script src="src/js/agents/Tiberius.js"></script>
+    <script src="src/js/agents/Elara.js"></script>
+    <script src="src/js/agents/Milo.js"></script>
+    <script src="src/js/main.js"></script>
+</body>
+</html>
