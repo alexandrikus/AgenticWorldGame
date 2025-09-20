@@ -4,7 +4,7 @@
   "description": "A 2D web-based sandbox game with AI-driven characters",
   "main": "index.html",
   "scripts": {
-    "dev": "live-server --port=3000 --open=/index.html",
+    "dev": "node scripts/generate-env-config.js && live-server --port=3000 --open=/index.html",
     "build": "echo 'Build process for production'",
     "test": "echo 'No tests yet'"
   },

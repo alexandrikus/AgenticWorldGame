@@ -26,6 +26,9 @@ async function initGame() {
         
         // Wait for initialization to complete
         await gameEngine.init();
+
+        // Apply AI configuration if provided via environment
+        applyEnvironmentAIConfig();
         
         // Set up global event listeners
         setupGlobalEvents();
@@ -85,6 +88,43 @@ function setupGlobalEvents() {
             console.log(`Conversation started with ${agent.name}`);
         });
     }
+}
+
+/**
+ * Configure all AI agents using environment configuration if available
+ */
+function applyEnvironmentAIConfig() {
+    if (!gameEngine || !window.__AI_CONFIG__) {
+        return;
+    }
+
+    const config = window.__AI_CONFIG__;
+
+    if (!config.enabled) {
+        console.log('AI environment configuration not enabled. Using fallback responses.');
+        return;
+    }
+
+    const agentConfigs = {
+        endpoint: config.apiEndpoint || null,
+        apiKey: config.apiKey || null,
+        model: config.model || 'gpt-3.5-turbo',
+        temperature: typeof config.temperature === 'number' ? config.temperature : undefined,
+        maxTokens: typeof config.maxTokens === 'number' ? config.maxTokens : undefined
+    };
+
+    if (!agentConfigs.endpoint) {
+        console.warn('AI environment configuration missing endpoint. Skipping AI setup.');
+        return;
+    }
+
+    gameEngine.agents.forEach((agent) => {
+        if (agent.aiAgent && typeof agent.aiAgent.setAPIConfiguration === 'function') {
+            agent.aiAgent.setAPIConfiguration(agentConfigs);
+        }
+    });
+
+    console.log('Applied AI configuration from environment for all agents.');
 }
 
 /**

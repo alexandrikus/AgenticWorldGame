@@ -300,11 +300,31 @@ Always respond as this character would, considering their background, goals, and
     }
 
     // Configuration methods
-    setAPIConfiguration(endpoint, apiKey, model = 'gpt-3.5-turbo') {
-        this.apiEndpoint = endpoint;
-        this.apiKey = apiKey;
-        this.model = model;
-        console.log(`AI API configured for ${this.name}`);
+    setAPIConfiguration(endpointOrConfig, apiKey = null, model = 'gpt-3.5-turbo') {
+        if (typeof endpointOrConfig === 'object' && endpointOrConfig !== null) {
+            const config = endpointOrConfig;
+            this.apiEndpoint = config.endpoint || null;
+            this.apiKey = config.apiKey || null;
+            this.model = config.model || 'gpt-3.5-turbo';
+
+            if (typeof config.temperature === 'number' && !Number.isNaN(config.temperature)) {
+                this.temperature = config.temperature;
+            }
+
+            if (typeof config.maxTokens === 'number' && Number.isFinite(config.maxTokens)) {
+                this.maxTokens = Math.max(1, Math.floor(config.maxTokens));
+            }
+        } else {
+            this.apiEndpoint = endpointOrConfig;
+            this.apiKey = apiKey;
+            this.model = model;
+        }
+
+        if (this.apiEndpoint) {
+            console.log(`AI API configured for ${this.name}`);
+        } else {
+            console.log(`AI API cleared for ${this.name}`);
+        }
     }
 
     updatePersonality(traits) {
