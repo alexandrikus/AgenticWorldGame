@@ -8,8 +8,8 @@ class Player extends Entity {
         // Player specific properties
         this.type = 'player';
         this.speed = 200; // pixels per second
-        this.color = '#4a90e2';
-        this.name = 'Player';
+        this.color = '#F5F5DC'; // Beige bunny color
+        this.name = 'Bunny Player';
         
         // Movement state
         this.isMoving = false;
@@ -34,14 +34,14 @@ class Player extends Entity {
     }
 
     setupPlayer() {
-        // Set collision radius
-        this.collisionRadius = 15;
+        // Set collision radius for bunny (slightly smaller)
+        this.collisionRadius = 12;
         
-        // Set visual properties
-        this.width = 30;
-        this.height = 30;
+        // Set visual properties for bunny sprite
+        this.width = 24;  // Smaller width for bunny
+        this.height = 30; // Taller for bunny ears
         
-        console.log('Player created at:', this.position.toString());
+        console.log('Bunny player created at:', this.position.toString());
     }
 
     update(deltaTime) {
@@ -126,43 +126,182 @@ class Player extends Entity {
     }
 
     renderEntity(renderer) {
-        // Render player as a circle with directional indicator
-        const center = new Vector2(0, 0); // Already translated to center
+        // Render player as an adorable bunny character
+        const ctx = renderer.ctx;
         
-        // Main body
-        renderer.ctx.fillStyle = this.color;
-        renderer.ctx.beginPath();
-        renderer.ctx.arc(0, 0, this.width/2, 0, Math.PI * 2);
-        renderer.ctx.fill();
+        // Add subtle bounce animation when moving
+        const time = Date.now() * 0.01;
+        const bounceOffset = this.isMoving ? Math.sin(time * 0.5) * 2 : 0;
         
-        // Border
-        renderer.ctx.strokeStyle = '#357abd';
-        renderer.ctx.lineWidth = 2;
-        renderer.ctx.stroke();
+        // Save context for transformations
+        ctx.save();
         
-        // Directional indicator (small dot)
-        const indicatorDistance = this.width/3;
-        let indicatorPos = Vector2.zero();
+        // Apply bounce animation
+        ctx.translate(0, bounceOffset);
         
-        switch (this.facingDirection) {
-            case 'up':
-                indicatorPos = new Vector2(0, -indicatorDistance);
-                break;
-            case 'down':
-                indicatorPos = new Vector2(0, indicatorDistance);
-                break;
-            case 'left':
-                indicatorPos = new Vector2(-indicatorDistance, 0);
-                break;
-            case 'right':
-                indicatorPos = new Vector2(indicatorDistance, 0);
-                break;
+        // Bunny body (main oval)
+        ctx.fillStyle = '#F5F5DC'; // Beige bunny color
+        ctx.beginPath();
+        ctx.ellipse(0, 2, 12, 15, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Body outline
+        ctx.strokeStyle = '#D2B48C';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        // Bunny head (circle above body)
+        ctx.fillStyle = '#F5F5DC';
+        ctx.beginPath();
+        ctx.arc(0, -8, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#D2B48C';
+        ctx.stroke();
+        
+        // Bunny ears - adjust based on facing direction
+        let leftEarX = -6, leftEarY = -16;
+        let rightEarX = 6, rightEarY = -16;
+        
+        // Slightly adjust ear positions based on direction for personality
+        if (this.facingDirection === 'left') {
+            leftEarX -= 1;
+            rightEarX -= 1;
+        } else if (this.facingDirection === 'right') {
+            leftEarX += 1;
+            rightEarX += 1;
         }
         
-        renderer.ctx.fillStyle = '#ffffff';
-        renderer.ctx.beginPath();
-        renderer.ctx.arc(indicatorPos.x, indicatorPos.y, 3, 0, Math.PI * 2);
-        renderer.ctx.fill();
+        // Left ear
+        ctx.fillStyle = '#F5F5DC';
+        ctx.beginPath();
+        ctx.ellipse(leftEarX, leftEarY, 3, 8, -0.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#D2B48C';
+        ctx.stroke();
+        
+        // Left ear inner (pink)
+        ctx.fillStyle = '#FFB6C1';
+        ctx.beginPath();
+        ctx.ellipse(leftEarX, leftEarY + 1, 1.5, 5, -0.2, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Right ear  
+        ctx.fillStyle = '#F5F5DC';
+        ctx.beginPath();
+        ctx.ellipse(rightEarX, rightEarY, 3, 8, 0.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#D2B48C';
+        ctx.stroke();
+        
+        // Right ear inner (pink)
+        ctx.fillStyle = '#FFB6C1';
+        ctx.beginPath();
+        ctx.ellipse(rightEarX, rightEarY + 1, 1.5, 5, 0.2, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Eyes - adjust based on facing direction
+        ctx.fillStyle = '#000000';
+        if (this.facingDirection === 'left') {
+            // Looking left - show side profile eyes
+            ctx.beginPath();
+            ctx.arc(-2, -10, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (this.facingDirection === 'right') {
+            // Looking right - show side profile eyes  
+            ctx.beginPath();
+            ctx.arc(2, -10, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+        } else {
+            // Looking up/down - show both eyes
+            ctx.beginPath();
+            ctx.arc(-3, -10, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(3, -10, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // Eye shine (white highlights)
+        ctx.fillStyle = '#FFFFFF';
+        if (this.facingDirection === 'left') {
+            ctx.beginPath();
+            ctx.arc(-2.5, -10.5, 0.5, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (this.facingDirection === 'right') {
+            ctx.beginPath();
+            ctx.arc(1.5, -10.5, 0.5, 0, Math.PI * 2);
+            ctx.fill();
+        } else {
+            ctx.beginPath();
+            ctx.arc(-3.5, -10.5, 0.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(2.5, -10.5, 0.5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        // Bunny nose - adjust based on facing direction
+        ctx.fillStyle = '#FFB6C1';
+        if (this.facingDirection === 'left') {
+            ctx.beginPath();
+            ctx.ellipse(-4, -6, 1, 0.8, 0, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (this.facingDirection === 'right') {
+            ctx.beginPath();
+            ctx.ellipse(4, -6, 1, 0.8, 0, 0, Math.PI * 2);
+            ctx.fill();
+        } else {
+            // Front-facing triangular nose
+            ctx.beginPath();
+            ctx.moveTo(0, -7);
+            ctx.lineTo(-1, -5);
+            ctx.lineTo(1, -5);
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        // Bunny mouth - simple line
+        ctx.strokeStyle = '#8B4513';
+        ctx.lineWidth = 1;
+        if (this.facingDirection === 'up' || this.facingDirection === 'down') {
+            // Front view - small curved mouth
+            ctx.beginPath();
+            ctx.arc(0, -4, 2, 0.2, Math.PI - 0.2);
+            ctx.stroke();
+        }
+        
+        // Bunny tail (fluffy white circle on back)
+        ctx.fillStyle = '#FFFFFF';
+        ctx.beginPath();
+        ctx.arc(0, 12, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#D2B48C';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        // Paws/feet - small ovals at bottom
+        ctx.fillStyle = '#F0E68C'; // Slightly different color for paws
+        // Left paw
+        ctx.beginPath();
+        ctx.ellipse(-6, 14, 3, 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        // Right paw
+        ctx.beginPath();
+        ctx.ellipse(6, 14, 3, 2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Paw outlines
+        ctx.strokeStyle = '#D2B48C';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.ellipse(-6, 14, 3, 2, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.ellipse(6, 14, 3, 2, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Restore context
+        ctx.restore();
         
         // Health bar (if damaged)
         if (this.health < this.maxHealth) {
