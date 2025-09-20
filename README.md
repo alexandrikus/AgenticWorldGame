@@ -52,27 +52,24 @@ A 2D web-based sandbox game featuring AI-driven NPCs with advanced conversation 
 
 ## 🔧 AI Configuration
 
-The game supports multiple LLM providers. Configure in `main.js`:
+AI credentials and parameters are loaded from environment variables. Copy the sample file and customise it for your setup:
 
-### Option 1: OpenAI API
-```javascript
-// Configure OpenAI (recommended for best experience)
-const API_KEY = 'your-openai-api-key-here';
-const API_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
-```
-
-### Option 2: Local Ollama
 ```bash
-# Install Ollama locally
-# Download from: https://ollama.ai
-ollama pull llama3.1  # or another model
-ollama serve  # starts on localhost:11434
+cp .env.example .env
+# then edit .env with your preferred endpoint, key, model, etc.
 ```
 
-### Option 3: Alternative APIs
-- Anthropic Claude
-- Google Gemini
-- Any OpenAI-compatible endpoint
+When you run `npm run dev`, the `.env` file is transformed into `env-config.js`, which is automatically loaded by the browser. All agents will then use the provided values (endpoint, key, model, temperature and max tokens) when generating responses. Leaving the endpoint or key blank keeps the game in fallback dialogue mode.
+
+### Example Settings
+
+| Provider | Endpoint | API Key |
+| --- | --- | --- |
+| OpenAI | `https://api.openai.com/v1/chat/completions` | Your OpenAI API key |
+| Local Ollama | `http://localhost:11434/v1/chat/completions` | `not-needed` |
+| Custom | Your custom OpenAI-compatible endpoint | As required by your service |
+
+You can continue to experiment by editing agent personalities in the `src/js/agents/` files or by adjusting the defaults in `.env`.
 
 ## 📁 Project Structure
 
